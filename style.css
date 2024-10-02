@@ -1,0 +1,39 @@
+body {
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+}
+
+.container {
+  margin-top: 200px;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ccc;
+}
+
+.no {
+  background-color: #f44336;
+  color: #fff;
+}
+
+#message {
+  margin-top: 20px;
+}
+
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
