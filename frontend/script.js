@@ -13,8 +13,18 @@ let currentQuestion = 0;
 let answers = [];
 
 function startQuestions() {
-  document.getElementById("questions").style.display = "block";
+  const namaInput = document.getElementById("nama");
+  const nama = namaInput.value;
+  if (!nama) {
+    alert("Silakan masukkan nama Anda terlebih dahulu.");
+    return;
+  }
+  // Sembunyikan input nama dan tombol setelah nama dimasukkan
+  namaInput.style.display = "none";
   document.getElementById("que").style.display = "none";
+  
+  // Tampilkan pertanyaan
+  document.getElementById("questions").style.display = "block";
   askQuestion();
 }
 
@@ -41,6 +51,7 @@ function nextQuestionOrSubmit() {
     showFinalMessage();
   }
 }
+
 function playSound() {
   const audio = new Audio('sound.mp4'); // Path to your audio file
   audio.play();
@@ -69,6 +80,7 @@ function showScaryImage(scaryImage, scaryImageUrl) {
   scaryImage.src = scaryImageUrl;
   scaryImage.style.display = "block";
 }
+
 function showFinalMessage() {
   document.getElementById("questions").style.display = "none";
   document.getElementById("message").style.display = "block";
@@ -78,22 +90,21 @@ function showFinalMessage() {
 playSound();
 submitAnswers(); // Send the answers to the server
 showConfetti();
-
-
 }
 
 function submitAnswers() {
-fetch("https://askherserver1.vercel.app/submit", {
-  // Replace with your actual server endpoint
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    sender: "Zendria",
-    answers: answers,
-  }),
-})
+  const nama = document.getElementById("nama").value;
+  fetch("https://askherserver1.vercel.app/submit", {
+    // Replace with your actual server endpoint
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      sender: nama,
+      answers: answers,
+    }),
+  })
   .then((response) => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -111,7 +122,7 @@ fetch("https://askherserver1.vercel.app/submit", {
 }
 
 function showConfetti() {
-const confettiSettings = { target: "confetti-canvas" };
-const confetti = new ConfettiGenerator(confettiSettings);
-confetti.render();
+  const confettiSettings = { target: "confetti-canvas" };
+  const confetti = new ConfettiGenerator(confettiSettings);
+  confetti.render();
 }
