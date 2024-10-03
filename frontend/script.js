@@ -83,7 +83,7 @@ showConfetti();
 }
 
 function submitAnswers() {
-fetch("https://askherserver1.vercel.app/submit", {
+fetch("https://askherserver1-n4eo52py7-hack-stack1s-projects.vercel.app/", {
   // Replace with your actual server endpoint
   method: "POST",
   headers: {
