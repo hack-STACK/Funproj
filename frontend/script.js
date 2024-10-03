@@ -1,12 +1,12 @@
 // List of questions for the quiz
 const questions = [
-  "Kamu percaya cinta bisa datang dalam sekejap?",
-  "Kamu mau jadi pasangan aku yang paling cocok?",
-  "Kamu bakal bilang iya kalau aku ajak kamu jalan-jalan?",
-  "Kamu pikir kita jadi tim yang paling hebat?",
-  "Kalau aku jadi bug, kamu mau bantu aku cari solusi?",
-  "Kamu yang bisa membuat hidup aku jadi lebih berwarna?",
-  "Kamu janji tidak akan membuat aku jadi bingung?",
+  "Pernah merasa sesuatu yang indah bisa terjadi begitu saja?",
+"Menurut kamu, kita cocok untuk saling melengkapi?",
+"Apa kamu suka menjelajahi tempat-tempat baru bareng teman spesial?",
+"Kamu percaya, kita bisa jadi partner yang seru dalam berbagai hal?",
+"Kalau ada tantangan di depan, kamu bakal bantu aku cari jalan keluarnya?",
+"Ada nggak hal yang bikin hari kamu jadi lebih cerah, kayak momen kita ini?",
+"Kamu pikir, kita bisa saling memahami tanpa perlu banyak kata?",
 ];
 
 let currentQuestion = 0;
