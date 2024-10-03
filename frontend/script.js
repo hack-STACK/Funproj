@@ -13,15 +13,13 @@ let currentQuestion = 0;
 let answers = [];
 
 function startQuestions() {
-  console.log("startQuestions called"); // Debugging line
   document.getElementById("questions").style.display = "block";
   document.getElementById("que").style.display = "none";
   askQuestion();
 }
 
 function askQuestion() {
-  document.getElementById("question-text").innerText =
-    questions[currentQuestion];
+  document.getElementById("question-text").innerText = questions[currentQuestion];
   document.getElementById("question-number").innerText = currentQuestion + 1;
 }
 
@@ -43,39 +41,77 @@ function nextQuestionOrSubmit() {
     showFinalMessage();
   }
 }
+function playSound() {
+  const audio = new Audio('sound.mp4'); // Path to your audio file
+  audio.play();
+}
 
+function startCountdown() {
+  let countdown = 3; // Waktu countdown dalam detik
+  const countdownText = document.getElementById("countdown-text");
+  const scaryImage = document.getElementById("scary-image");
+  const scaryImageUrl = "apacoba.jpg"; // Path ke gambar menyeramkan
+
+  document.getElementById("countdown-container").style.display = "block";
+
+  countdownText.innerText = `Countdown: ${countdown}`;
+  const intervalId = setInterval(() => {
+    countdown--; // Kurangi countdown setiap detik
+    countdownText.innerText = `Countdown: ${countdown}`;
+    if (countdown === 0) {
+      clearInterval(intervalId); // Hentikan interval ketika countdown mencapai nol
+      showScaryImage(scaryImage, scaryImageUrl);
+    }
+  }, 1000); // 1000ms = 1 detik
+}
+
+function showScaryImage(scaryImage, scaryImageUrl) {
+  scaryImage.src = scaryImageUrl;
+  scaryImage.style.display = "block";
+}
 function showFinalMessage() {
   document.getElementById("questions").style.display = "none";
   document.getElementById("message").style.display = "block";
   document.getElementById("messageText").innerText =
-    "Thank you for answering all the questions!";
-  submitAnswers(); // Send the answers to the server
-  showConfetti();
+  "ikan hiu makan tomat, thank you very much :V";
+// startCountdown();
+playSound();
+submitAnswers(); // Send the answers to the server
+showConfetti();
+
+
 }
 
 function submitAnswers() {
-  fetch("http://localhost:3000/submit", {
-    // Replace with your actual server endpoint
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      sender: "Zendria",
-      answers: answers,
-    }),
+fetch("http://localhost:3000/submit", {
+  // Replace with your actual server endpoint
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    sender: "Zendria",
+    answers: answers,
+  }),
+})
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
   })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Success:", data); // Debugging line
-    })
-    .catch((error) => {
-      console.error("Error:", error); // Debugging line
-    });
+  .then((data) => {
+    console.log("Success:", data);
+    alert("Tenkyu bang");
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+    alert("There was a problem submitting your answers. Please try again.");
+  });
 }
 
 function showConfetti() {
-  const confettiSettings = { target: "confetti-canvas" };
-  const confetti = new ConfettiGenerator(confettiSettings);
-  confetti.render();
+const confettiSettings = { target: "confetti-canvas" };
+const confetti = new ConfettiGenerator(confettiSettings);
+confetti.render();
 }
