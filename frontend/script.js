@@ -83,7 +83,7 @@ showConfetti();
 }
 
 function submitAnswers() {
-fetch("http://localhost:3000/submit", {
+fetch("https://askherserver1.vercel.app/submit", {
   // Replace with your actual server endpoint
   method: "POST",
   headers: {
