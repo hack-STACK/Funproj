@@ -4,11 +4,13 @@ const bodyParser = require("body-parser");
 const twilio = require("twilio");
 const logger = require("morgan");
 const cors = require("cors");
+const path = require("path"); 
 
 const app = express();
 app.use(bodyParser.json());
 app.use(logger("dev"));
 app.use(cors());
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -37,6 +39,14 @@ app.post("/submit", (req, res) => {
       console.error("Error sending SMS:", error);
       res.status(500).json({ error: error.message });
     });
+});
+
+app.get('/', (req, res) => {
+  res.status(200).send('Welcome to the homepage!');
+});
+
+app.get('/home', (req, res) => {
+  res.status(200).json('Welcome, your app is working well');
 });
 
 const PORT = process.env.PORT || 3000;
