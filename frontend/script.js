@@ -13,6 +13,7 @@ const questions = [
 "li-like promise? :'",
 "u know i feel traumatic bout it, but could you heal my wound? :'",
 "thanks 😌",
+"felt so relieved",
 ];
 
 let currentQuestion = 0;
