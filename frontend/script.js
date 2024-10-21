@@ -10,6 +10,7 @@ const questions = [
 "Would you be my last?",
 "do you mean it?",
 "u promise ? :')",
+"li-like promise? :'",
 "u know i feel traumatic bout it, but could you heal my wound? :'",
 "thanks 😌",
 ];
