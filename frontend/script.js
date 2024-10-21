@@ -7,6 +7,7 @@ const questions = [
 "Kalau ada tantangan di depan, kamu bakal bantu aku cari jalan keluarnya?",
 "Ada nggak hal yang bikin hari kamu jadi lebih cerah, kayak momen kita ini?",
 "Kamu pikir, kita bisa saling memahami tanpa perlu banyak kata?",
+"Would you be my last?"
 ];
 
 let currentQuestion = 0;
