@@ -11,7 +11,7 @@ const questions = [
 "do you mean it?",
 "u promise ? :')",
 "u know i feel traumatic bout it, but could you heal my wound? :'",
-"thanks",
+"thanks 😌",
 ];
 
 let currentQuestion = 0;
