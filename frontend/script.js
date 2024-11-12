@@ -1,19 +1,10 @@
 // List of questions for the quiz
 const questions = [
-  "Pernah merasa sesuatu yang indah bisa terjadi begitu saja?",
-"Menurut kamu, kita cocok untuk saling melengkapi?",
-"Apa kamu suka menjelajahi tempat-tempat baru bareng teman spesial?",
-"Kamu percaya, kita bisa jadi partner yang seru dalam berbagai hal?",
-"Kalau ada tantangan di depan, kamu bakal bantu aku cari jalan keluarnya?",
-"Ada nggak hal yang bikin hari kamu jadi lebih cerah, kayak momen kita ini?",
-"Kamu pikir, kita bisa saling memahami tanpa perlu banyak kata?",
-"Would you be my last?",
-"do you mean it?",
-"u promise ? :')",
-"li-like promise? :'",
-"u know i feel traumatic bout it, but could you heal my wound? :'",
-"thanks 😌",
-"felt so relieved",
+"Kalau aku tiba-tiba berubah jadi karakter kartun favorit kamu, bakal tetap mau jalan bareng nggak?",
+"Menurutmu, aku lebih lucu dari meme favorit kamu, nggak?",
+"Kalau aku tantang kamu untuk maraton nonton film rom-com seharian, kamu sanggup nggak?",
+"Kalau tiba-tiba aku jadi super jenius tapi tingkahku jadi aneh, kamu bakal tahan?",
+"Kalau bisa baca pikiran, mau nggak kamu tahu apa yang aku pikirkan sekarang?",
 ];
 
 let currentQuestion = 0;
