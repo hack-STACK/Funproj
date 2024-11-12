@@ -1,10 +1,10 @@
 // List of questions for the quiz
 const questions = [
-"Kalau aku tiba-tiba berubah jadi karakter kartun favorit kamu, bakal tetap mau jalan bareng nggak?",
-"Menurutmu, aku lebih lucu dari meme favorit kamu, nggak?",
-"Kalau aku tantang kamu untuk maraton nonton film rom-com seharian, kamu sanggup nggak?",
-"Kalau tiba-tiba aku jadi super jenius tapi tingkahku jadi aneh, kamu bakal tahan?",
-"Kalau bisa baca pikiran, mau nggak kamu tahu apa yang aku pikirkan sekarang?",
+"Kalau aku tiba-tiba ngajak nonton film genre favorit kamu, bakal mau nggak?",
+"Kamu suka kalau diajak ngobrol lama di chat, nggak?",
+"Kalau aku kirim meme random ke kamu sekarang, bakal ketawa nggak?",
+"Misalnya aku ngajak main game online bareng, kamu mau ikut nggak?",
+"Menurut kamu, obrolan kita sejauh ini seru, nggak?",
 ];
 
 let currentQuestion = 0;
