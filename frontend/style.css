@@ -1,95 +1,733 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  --love: #ff4a8a;
+  --cute: #ff8cb4;
+  --sky: #a0d8ff;
+  --neon: #ff2a6d;
+  --bg: linear-gradient(135deg, #fff8fd 0%, #f0faff 100%);
+  --glass: rgba(255, 255, 255, 0.96);
+  --shadow: 0 28px 60px rgba(255, 77, 130, 0.22);
+  --radius: 38px;
+  --glow: 0 0 22px rgba(255, 77, 130, 0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  font-family: "Inter", sans-serif;
-  text-align: center;
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  background-image: url('path/to/your/scary-image.jpg');
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  /* Hapus overflow: hidden; */
+  overflow-y: auto; /* Biarkan scroll jika perlu */
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Hapus justify-content: center; karena kita mau footer di bawah */
+  padding: 20px;
+  cursor: default;
 }
 
-.container {
-  margin-top: 500px;
+.scene {
+  perspective: 1200px;
+  width: 100vw;
+  /* Hapus height: 100vh; */
+  flex: 1; /* Ini akan membuat scene memenuhi sisa ruang */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+footer {
+  margin-top: auto; /* Ini akan mendorong footer ke bawah */
+  /* Atau kita berikan margin-top: 20px; */
 }
 
-button:hover {
-  background-color: #ccc;
-  transform: scale(1.1);
-}
-#nama {
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.no {
-  background-color: #f44336;
-  color: #fff;
+.card {
+  width: 400px;
+  max-width: 92vw;
+  height: 640px;
+  position: relative;
+  transform-style: preserve-3d;
+transition: transform 1.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* LEBIH LAMBAT */
 }
 
-.no:hover {
-  background-color: #d32f2f;
+
+.card.flipped {
+  transform: rotateY(180deg);
+}
+/* Kelas untuk animasi flip antar pertanyaan */
+.card.flipping {
+  transform: rotateY(360deg);
 }
 
-#message {
-  margin-top: 20px;
-}
-
-#confetti-canvas {
+/* === FLOATING HEARTS === */
+.floating-hearts {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+}
+.floating-hearts::before {
+  content: '❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️';
+  font-size: 2.1rem;
+  position: absolute;
+  white-space: nowrap;
+  animation: float 16s infinite linear;
+  opacity: 0.18;
+  color: var(--love);
+}
+@keyframes float {
+  0% { transform: translateY(100vh) rotate(0deg); }
+  100% { transform: translateY(-150px) rotate(360deg); }
+}
+
+/* === LOVE CARD === */
+.love-card {
+  background: var(--glass);
+  backdrop-filter: blur(24px);
+  border-radius: var(--radius);
+  padding: 48px 40px;
   width: 100%;
   height: 100%;
+  box-shadow: var(--shadow);
+  border: 2.5px solid rgba(255, 255, 255, 0.7);
+  position: relative;
+  z-index: 5;
+  transition: transform 0.4s ease;
+}
+.love-card:hover {
+  transform: translateY(-8px);
+}
+
+/* === HEART BURST === */
+.heart-burst {
+  position: absolute;
+  top: -30px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 3.4rem;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.5); }
+}
+
+/* === TITLE === */
+.title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  text-align: center;
+  font-family: 'Comic Neue', cursive;
+}
+.neon-text {
+  background: linear-gradient(135deg, #ff6b9d, #a2d2ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+}
+.gradient-text {
+  background: linear-gradient(135deg, #ff8cb4, #a0d8ff, #ff4a8a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+.highlight {
+  color: var(--neon);
+  font-weight: 700;
+}
+
+/* === WAVE === */
+.wave {
+  display: inline-block;
+  font-size: 2.6rem;
+  background: linear-gradient(135deg, #ff6b9d, #a2d2ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: colorShift 3s ease-in-out infinite;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes colorShift {
+  0%, 100% {
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    filter: hue-rotate(45deg);
+  }
+}
+/* === SUBTITLE === */
+.subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 20px 0 32px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* === INPUT GLOW === */
+.input-glow {
+  width: 100%;
+  padding: 18px 24px;
+  border: 3px solid #ffe2ed;
+  border-radius: 26px;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.97);
+  transition: all 0.4s ease;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 10;
+  outline: none;
+}
+.input-glow:focus {
+  border-color: var(--love);
+  transform: translateY(-4px);
+  box-shadow: var(--glow);
+}
+
+/* === BUTTON 3D === */
+.btn-3d {
+  padding: 16px 36px;
+  border: none;
+  border-radius: 26px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Comic Neue', cursive;
+  box-shadow: 0 12px 28px rgba(255, 77, 130, 0.3);
+  transform: translateY(0);
+}
+.btn-love, .yes, .btn-next {
+  background: linear-gradient(135deg, var(--love), var(--cute));
+  color: white;
+}
+.no {
+  background: #fff9fc;
+  color: var(--love);
+  border: 3px solid #ffe6f2;
+}
+.btn-3d:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 40px rgba(255, 77, 130, 0.5);
+}
+.btn-3d:active {
+  transform: translateY(-2px);
+}
+
+/* === PROGRESS === */
+.progress-container {
+  margin-bottom: 22px;
+  width: 100%;
+}
+.progress-bar {
+  height: 9px;
+  background: #ffe8f2;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--love), var(--cute));
+  border-radius: 5px;
+  transition: width 0.7s ease;
+  box-shadow: var(--glow);
+}
+.progress-text {
+  font-size: 0.95rem;
+  color: #888;
+  text-align: center;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+/* === QUESTION BOX === */
+.question-box {
+  background: rgba(255, 245, 250, 0.9);
+  padding: 30px;
+  border-radius: 30px;
+  border: 3.5px dashed var(--cute);
+  margin: 26px 0;
+  min-height: 130px;
+  text-align: center;
+  width: 100%;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.question {
+  font-size: 1.38rem;
+  line-height: 1.8;
+  font-weight: 600;
+  color: #222;
+  font-family: 'Comic Neue', cursive;
+}
+.question-box.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.emoji-reaction {
+  margin-top: 14px;
+  font-size: 2rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+/* === BUTTON GROUP === */
+.btn-group {
+  display: flex;
+  gap: 18px;
+  margin-top: 34px;
+  justify-content: center;
+  width: 100%;
+}
+.text-input button {
+  width: 100%;
+  margin-top: 16px;
+}
+
+/* === LOVE LETTER === */
+.love-letter {
+  background: linear-gradient(135deg, #fff9fc, #f8f6ff);
+  padding: 34px;
+  border-radius: 32px;
+  border: 4px dashed var(--cute);
+  margin: 28px 0;
+  text-align: center;
+  animation: popIn 1s ease-out;
+  width: 100%;
+}
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.6); }
+  100% { opacity: 1; transform: scale(1); }
+}
+/* Pastikan final memiliki styling yang benar */
+#final {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  z-index: 15;
+}
+
+#final.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.final-text {
+  font-size: 1.25rem;
+  line-height: 2;
+  color: #444;
+  font-family: 'Comic Neue', cursive;
+}
+
+.signature {
+  text-align: right;
+  margin-top: 26px;
+  font-style: italic;
+  color: var(--neon);
+  font-weight: 700;
+}
+
+/* === NO DRAMA === */
+.no-drama {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: #ffeef5;
+  padding: 18px 28px;
+  border-radius: 30px;
+  border: 4px dashed #ff6b9d;
+  color: #d6336c;
+  font-weight: 700;
+  font-size: 1.2rem;
+  box-shadow: 0 15px 35px rgba(255, 107, 157, 0.4);
+  z-index: 100;
   pointer-events: none;
 }
-
-#questions {
-  animation: fadeIn 2s;
+.no-drama.show {
+  animation: pop 0.6s ease-out forwards;
+}
+@keyframes pop {
+  0% { transform: translate(-50%, -50%) scale(0) rotate(-20deg); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* === NO BUTTON EFFECTS === */
+.no.wiggle { animation: wiggle 0.6s ease-in-out; }
+.no.run { animation: runAway 0.8s ease-out forwards; }
+@keyframes wiggle {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-12px); }
+  75% { transform: translateX(12px); }
+}
+@keyframes runAway {
+  to { transform: translateX(140px) scale(0.8); opacity: 0.6; }
 }
 
-.container {
-  position: relative; /* Add this line */
-  margin-top: 500px;
+/* === SOUND TOGGLE === */
+.sound-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+.sound-toggle button {
+  background: rgba(255, 255, 255, 0.9);
+  color: #555;
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 2px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-#scary-image {
-  position: absolute;
-  top: 0;
+/* === CONFETTI === */
+#confetti-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+/* === FOOTER === */
+footer {
+  position: fixed;
+  bottom: 0;
   left: 0;
-  width: 100vw; /* Set width to 100% of viewport width */
-  height: 100vh; /* Set height to 100% of viewport height */
-  object-fit: cover; /* Ensure the image covers the entire area */
-  padding: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background: var(--bg); /* atau transparan */
+  z-index: 1000;
+}
+.made-with {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Comic Neue', cursive;
+  font-weight: 700;
+  /* HAPUS background gradient dan properti terkait */
+  /* background: linear-gradient(135deg, #ff6b9d, #ff8cb4, #a0d8ff); */
+  /* -webkit-background-clip: text; */
+  /* -webkit-text-fill-color: transparent; */
+  /* background-clip: text; */
+  
+  /* Ganti dengan warna solid */
+  color: #ff6b9d; /* atau warna lain yang diinginkan, misal #ff4a8a */
+  padding: 10px 20px;
+  border-radius: 25px;
+  background-color: #ffffff; /* Ganti rgba dengan solid white */
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
+  border: 2px solid #ff8cb4; /* Ganti rgba dengan warna solid */
 }
 
-@media (max-width: 768px) {
-  .container {
-    margin-top: 300px;
+/* === FOOTER STYLES === */
+.love-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 15px 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,248,253,0.95) 100%);
+  backdrop-filter: blur(10px);
+  border-top: 2px solid rgba(255, 138, 171, 0.2);
+  z-index: 1000;
+  box-shadow: 0 -5px 20px rgba(255, 107, 157, 0.1);
+  opacity: 1 important;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.made-with-love {
+  font-family: 'Comic Neue', cursive;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ff6b9d; /* Warna solid */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.9); /* Background kotak lebih solid */
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.15);
+  border: 2px solid rgba(255, 138, 171, 0.3);
+}
+
+.heart-beat {
+  display: inline-block;
+  animation: heartbeat 1.2s infinite ease-in-out;
+  font-size: 1.2rem;
+  color: #ff4a8a; /* Warna solid untuk hati */
+  filter: drop-shadow(0 0 5px rgba(255, 107, 157, 0.6));
+    opacity: 1 !important;
+}
+
+.creator-link {
+  color: #ff2a6d !important; /* WARNA SOLID */
+  text-decoration: none;
+  font-weight: 800;
+  transition: all 0.3s ease;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #ffffff !important; /* GANTI RGBA DENGAN SOLID */
+  border: 2px solid #ff8cb4 !important; /* HAPUS RGBA */
+  opacity: 1 !important;
+  
+  /* HAPUS TRANSPARANSI TEXT */
+  -webkit-text-fill-color: #ff2a6d !important;
+}
+
+.creator-link:hover {
+  color: #a0d8ff;
+  background: rgba(255, 107, 157, 0.1);
+  transform: translateY(-2px);
+}
+
+
+/* Animasi hati berdetak */
+.heart-pulse {
+  display: inline-block;
+  animation: heartbeat 1.2s infinite ease-in-out;
+  font-size: 1.3rem;
+  filter: drop-shadow(0 0 8px rgba(255, 107, 157, 0.6));
+}
+
+@keyframes heartbeat {
+  0%, 100% { 
+    transform: scale(1); 
+  }
+  25% { 
+    transform: scale(1.2); 
+  }
+  50% { 
+    transform: scale(0.9); 
+  }
+  75% { 
+    transform: scale(1.1); 
   }
 }
 
+/* Link Instagram */
+.instagram-link {
+  color: #ff6b9d;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.instagram-link:hover {
+  color: #a0d8ff;
+  background: rgba(255, 107, 157, 0.1);
+  transform: translateY(-2px);
+  text-shadow: 0 2px 8px rgba(255, 107, 157, 0.4);
+}
+
+.instagram-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff6b9d, #a0d8ff);
+  transition: width 0.3s ease;
+}
+
+.instagram-link:hover::after {
+  width: 100%;
+}
+
+/* Responsive Footer */
 @media (max-width: 480px) {
-  .container {
-    margin-top: 200px;
+  footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+  
+  .made-with {
+    padding: 8px 16px;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .heart-pulse {
+    font-size: 1.1rem;
   }
 }
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.heart {
+  display: inline-block;
+  animation: heartbeat 1.4s infinite;
+  color: #e91e63;
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+/* === SCREENS === */
+/* === SCREENS === */
+.screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.hidden {
+  display: none !important;
+}
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Intro di depan, quiz di belakang */
+#intro { z-index: 10; }
+#quiz { 
+  transform: rotateY(180deg); 
+  z-index: 5;
+}
+#final { z-index: 5; }
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+  .card { width: 95vw; height: 80vh; }
+  .love-card { padding: 36px 28px; }
+  .btn-group { flex-direction: column; gap: 14px; }
+  .btn-3d { width: 100%; font-size: 1rem; padding: 14px 20px; }
+  .title { font-size: 2rem; }
+  .question { font-size: 1.2rem; }
+}
+
+
+/* Efek lari lebih smooth */
+.no.run-away {
+  animation: runAround 2s ease-in-out infinite;
+}
+
+@keyframes runAround {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(120px) translateY(40px); }
+  50% { transform: translateX(-80px) translateY(80px); }
+  75% { transform: translateX(160px) translateY(-20px); }
+}
+
+/* Efek lompat-lompat kecil */
+.no.jumpy-tiny {
+  animation: jumpyTiny 1s ease-in-out infinite;
+}
+
+@keyframes jumpyTiny {
+  0%, 100% { transform: translateY(0) scale(0.4); }
+  50% { transform: translateY(-30px) scale(0.4); }
+}
+
+/* Efek berputar gila */
+.no.spinning-mad {
+  animation: spinMad 0.5s linear infinite;
+}
+
+@keyframes spinMad {
+  from { transform: rotate(0deg) scale(0.7); }
+  to { transform: rotate(360deg) scale(0.7); }
+}
+
+/* Efek invisible tricky */
+.no.invisible-tricky {
+  animation: invisibleTricky 2s ease-in-out infinite;
+}
+
+@keyframes invisibleTricky {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.8; }
+}
+
+/* Style untuk tombol clone */
+/* Style untuk puzzle pieces */
+[id^="no-puzzle-"] {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: floatPuzzle 2s ease-in-out infinite;
+  box-shadow: 0 4px 15px rgba(255, 77, 130, 0.3);
+  border-radius: 15px;
+}
+
+@keyframes floatPuzzle {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg); 
+  }
+  50% { 
+    transform: translateY(-5px) rotate(3deg); 
+  }
+}
+
+/* Puzzle piece yang asli punya efek khusus */
+.no.btn-3d[style*="linear-gradient"] {
+  animation: pulseReal 1s ease-in-out infinite;
+}
+
+@keyframes pulseReal {
+  0%, 100% { 
+    box-shadow: 0 0 15px rgba(255, 77, 130, 0.6);
+  }
+  50% { 
+    box-shadow: 0 0 25px rgba(255, 77, 130, 0.9);
+  }
+}
+
+/* Efek untuk tombol yang dinon-aktifkan */
+#yesno-group[style*="pointer-events: none"],
+#text-group[style*="pointer-events: none"] {
+  transition: opacity 0.3s ease;
+}
+
+/* Pastikan tombol tidak bisa diklik saat disabled */
+.btn-3d:disabled {
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-3d:disabled:hover {
+  transform: none !important;
+  box-shadow: 0 12px 28px rgba(255, 77, 130, 0.3) !important;
+}
+
+/* Input disabled style */
+.input-glow:disabled {
+  cursor: not-allowed;
+  border-color: #ccc !important;
+  transform: none !important;
+  box-shadow: none !important;
+  background: #f5f5f5 !important;
+}
+

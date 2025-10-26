@@ -1,48 +1,116 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz Singkat</title>
-    <link rel="stylesheet" href="./style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="container mx-auto">
-      <h1 class="text-2xl" id="init">
-        Hey siapa aja yang disana, Can I Ask You Something?
-      </h1>
-      <input id="nama" type="text" placeholder="Masukkan nama Anda" />
-      <button onclick="startQuestions()" id="que">Sure, Ask Away!</button>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Will You Be Mine? Super Cute 3D</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
 
-      <div id="questions" style="display: none">
-        <h1 class="text-2xl mt-8">
-          Question <span id="question-number"></span>:
+  <!-- Floating Hearts Background -->
+  <div class="floating-hearts"></div>
+
+  <!-- 3D Card Container -->
+  <div class="scene">
+    <div class="card" id="loveCard">
+      
+      <!-- Front: Intro -->
+      <section id="intro" class="screen active">
+        <div class="heart-burst">😛</div>
+        <h1 class="title neon-text">
+          <span class="wave">🖐️</span> Hey <span class="gradient-text">kamu</span>!
         </h1>
-        <p id="question-text"></p>
-        <button onclick="answerYes()">Yes</button>
-        <button onclick="answerNo()" class="no">No</button>
-      </div>
+        <p class="subtitle">Boleh aku nanya sesuatu yang <span class="highlight">super spesial</span>?</p>
+        <input id="nama" type="text" placeholder="Siapa namamu, zheyeng?" class="input-glow" autofocus />
+        <button onclick="startQuestions()" class="btn-love btn-3d">
+          <span>Boleh dong!</span>
+        </button>
+      </section>
 
-      <div id="message" style="display: none">
-        <p id="messageText"></p>
-      </div>
+      <!-- Back: Quiz -->
+      <section id="quiz" class="screen">
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <p class="progress-text">Pertanyaan <span id="question-number">1</span>/6</p>
+        </div>
 
-      <div id="countdown-container" style="display: none">
-        <p id="countdown-text"></p>
-        <img id="scary-image" src="apacoba.jpg" style="display: none; width: 100%; max-width: 500px;">
-      </div>
+        <div class="question-box">
+          <p id="question-text" class="question"></p>
+          <div class="emoji-reaction"></div>
+        </div>
+
+        <!-- Yes/No Buttons -->
+        <div class="btn-group" id="yesno-group">
+          <button onclick="answerYes()" class="yes btn-3d">
+            <span>Iya 😋</span>
+          </button>
+          <button id="no-btn" onclick="answerNo()" class="no btn-3d">
+            <span>Enggak 🥲</span>
+          </button>
+        </div>
+
+        <!-- Text Input -->
+        <div id="text-group" class="text-input hidden">
+          <input id="text-answer" type="text" placeholder="Tulis di sini..." class="input-glow" />
+          <button onclick="submitTextAnswer()" class="btn-next btn-3d">
+            <span>Lanjut 👉</span>
+          </button>
+        </div>
+
+        <!-- No Drama -->
+        <div id="no-message" class="no-drama hidden">
+          <p>Yah, jangan gitu dong!</p>
+        </div>
+      </section>
+
+      <!-- Final -->
+      <section id="final" class="screen">
+        <div class="love-letter">
+          <h2>Terima kasih, <span id="finalName"></span>!</h2>
+          <p class="final-text">
+            Ikan hiu makan tomat,<br>
+            makasih udah jawab semua pertanyaan aku Love letter
+          </p>
+          <div class="signature">— Dengan cinta, <strong>Juan</strong></div>
+        </div>
+        <button onclick="restart()" class="btn-restart btn-3d">Main Lagi?</button>
+      </section>
     </div>
+  </div>
 
-    <canvas id="confetti-canvas"></canvas>
-    <footer class="text-center mt-8">
-      Made with ❤️ by <a href="https://www.instagram.com/juwannqt/" target="_blank">Juan</a>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/confetti-js"></script>
-    <script src="script.js"></script>
-  </body>
+  <!-- Confetti -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Sound Toggle -->
+  <div class="sound-toggle">
+    <button onclick="toggleSound()" id="soundBtn" class="btn-3d">Sound on</button>
+  </div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <span class="made-with">
+      Made with 
+      <span class="heart-pulse">❤️</span> 
+      by 
+      <a href="https://www.instagram.com/juwannqt/" target="_blank" class="instagram-link">
+        @juwannqt
+      </a>
+    </span>
+  </div>
+</footer>
+
+  <!-- Audio -->
+  <audio id="popSound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3" preload="auto"></audio>
+  <audio id="loveSound" src="https://assets.mixkit.co/sfx/preview/mixkit-heart-beat-747.mp3" preload="auto"></audio>
+  <audio id="noSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-918.mp3" preload="auto"></audio>
+
+  <!-- Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
 </html>
