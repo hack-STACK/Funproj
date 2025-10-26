@@ -189,15 +189,30 @@ function answerNo() {
       createNoPuzzle();
       break;
       
-    case 7:
-      answers[answers.length - 1] = "yes 7 (invisible mode)";
-      showReaction("👻");
-      showNoMessage("Tombolnya ilang! Tapi masih ada di sekitar sini...");
-      removeNoPuzzle();
-      noBtn.style.display = "block";
-      noBtn.classList.add("invisible-tricky");
-      noBtn.innerHTML = '<span>👻</span>';
-      break;
+case 7:
+  answers[answers.length - 1] = "No (invisible mode)";
+  showReaction("👻");
+  showNoMessage("Tombolnya ilang! Tapi masih ada di sekitar sini...");
+  
+  // Pastikan hapus efek sebelumnya
+  removeNoPuzzle();
+  removeNoClones();
+  removeMirrorButtons();
+  
+  // Reset dan setup untuk efek invisible
+  noBtn.style.display = "block";
+  noBtn.style.opacity = "1"; // Pastikan visible dulu
+  noBtn.style.pointerEvents = "auto"; // Pastikan bisa diklik
+  noBtn.style.position = "relative"; // Reset position
+  noBtn.style.transform = ""; // Reset transform
+  
+  // Hapus semua class sebelumnya dan tambah class baru
+  noBtn.className = "no btn-3d invisible-tricky";
+  noBtn.innerHTML = '<span>👻</span>';
+  
+  // Start the invisible effect
+  startInvisibleEffect(noBtn);
+  break;
       
     case 8:
       answers[answers.length - 1] = "yes 8 (tukar posisi)";
@@ -244,7 +259,31 @@ function answerNo() {
 
 
 // ===== FUNGSI-FUNGSI EFFECT BARU =====
+// ===== FUNGSI EFFECT INVISIBLE =====
+let invisibleInterval;
 
+function startInvisibleEffect(button) {
+  let isVisible = true;
+  
+  invisibleInterval = setInterval(() => {
+    if (isVisible) {
+      // Mode invisible - hampir tidak terlihat tapi masih bisa diklik
+      button.style.opacity = "0.1";
+      button.style.pointerEvents = "auto"; // MASIH BISA DIKLIK
+    } else {
+      // Mode visible - muncul sebentar
+      button.style.opacity = "0.9";
+      button.style.pointerEvents = "auto"; // MASIH BISA DIKLIK
+    }
+    isVisible = !isVisible;
+  }, 800); // Ganti setiap 800ms
+}
+
+function stopInvisibleEffect() {
+  if (invisibleInterval) {
+    clearInterval(invisibleInterval);
+  }
+}
 // Effect 1: Tombol lari lebih ekstrim
 function createRunAwayEffect() {
   const noBtn = document.getElementById("no-btn");
