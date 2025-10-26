@@ -5,7 +5,7 @@ const questions = [
   { text: "Kalau iya, enaknya pertama kali kita ngelakuin hal seru bareng apa nih?", type: "text" },
   { text: "Kamu ngerasa gak sih, kita bisa jadi duo paling kompak kalo main bareng?", type: "yesno" },
   { text: "Hal kecil dari orang yang kamu suka, yang bisa bikin kamu senyum seharian tuh apa?", type: "text" },
-  { text: "Kamu bakal tetep nyautin chat aku terus kan? Jangan ghosting kayak bug di game 😆", type: "yesno" },
+  { text: "Kamu bakal tetep nyautin chat aku terus kan? Jangan ghosting aku yakk 🥹", type: "yesno" },
   { text: "Kamu lebih suka suasana tenang kayak chill di rumah, atau yang rame kayak nongkrong malem-malem?", type: "text" },
   { text: "Kalau aku tiba-tiba ngajak kamu jalan random, kamu mau gak? 😏", type: "yesno" },
   { text: "Satu kata deh, gimana kesan kamu waktu pertama kali liat aku?", type: "text" },
