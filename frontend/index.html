@@ -121,27 +121,17 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
 
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBZ5UsshCljRiL5QeXCkGwhafQ0SeQDM00",
-      authDomain: "askherout-e602e.firebaseapp.com",
-      projectId: "askherout-e602e",
-      storageBucket: "askherout-e602e.firebasestorage.app",
-      messagingSenderId: "1030360510857",
-      appId: "1:1030360510857:web:d1b422f31f853c30097158",
-      measurementId: "G-L7S22PFTGX"
-    };
+  <script type="module">
+    import { firebaseConfig } from '/API/config.js'; // Tambah slash di depan
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Initialize global variables
+    // Set global variables
     window.db = firebase.firestore();
-    window.analytics = firebase.analytics();
+    window.firebase = firebase;
 
     console.log("Firebase initialized successfully!");
-  </script>
   </script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
