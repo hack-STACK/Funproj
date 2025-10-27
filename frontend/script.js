@@ -1,5 +1,6 @@
 // === DATA PERTANYAAN ===
 const questions = [
+{ text: "Berapa Matcha yang sudah diminum hari inj 😜", type: "text" },
   { text: "Kamu percaya gak, kadang seseorang bisa bikin nyaman cuma lewat cara ngomongnya?", type: "yesno" },
   { text: "Kalau misal aku salah satu dari orang itu, kamu bakal ngasih aku kesempatan?", type: "yesno" },
   { text: "Kalau iya, enaknya pertama kali kita ngelakuin hal seru bareng apa nih?", type: "text" },
