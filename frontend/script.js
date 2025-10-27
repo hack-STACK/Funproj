@@ -71,7 +71,7 @@ function showQuestion() {
 
   // 🔒 UNLOCK tombol untuk pertanyaan baru
   isAnswerLocked = false;
-  
+
   // Enable semua tombol
   enableAllButtons();
 
@@ -106,13 +106,13 @@ function showQuestion() {
 function answerYes() {
   // 🔒 CEK LOCK - jika sudah dijawab, jangan proses lagi
   if (isAnswerLocked || questions[currentQuestion].type !== "yesno") return;
-  
+
   // 🔒 LOCK jawaban
   isAnswerLocked = true;
   disableAllButtons();
-  
+
   answers.push("Yes");
-  
+
   showReaction("😋");
   playSound("pop");
   miniConfetti();
@@ -130,12 +130,12 @@ function answerNo() {
   playSound("no");
 
   const noBtn = document.getElementById("no-btn");
-  
+
   if (clickCount === 1) {
     answers.push("No");
   }
 
-  switch(clickCount) {
+  switch (clickCount) {
     case 1:
       answers[answers.length - 1] = "Yes 1";
       showReaction("😢");
@@ -143,7 +143,7 @@ function answerNo() {
       noBtn.classList.add("wiggle");
       setTimeout(() => noBtn.classList.remove("wiggle"), 600);
       break;
-      
+
     case 2:
       answers[answers.length - 1] = "yes 2";
       showReaction("🏃‍♂️");
@@ -151,7 +151,7 @@ function answerNo() {
       noBtn.classList.add("run-away");
       noBtn.innerHTML = '<span>Lari ah! 🏃‍♂️</span>';
       break;
-      
+
     case 3:
       answers[answers.length - 1] = "yes 3 (jadi kecil)";
       showReaction("🔍");
@@ -159,7 +159,7 @@ function answerNo() {
       noBtn.classList.add("jumpy-tiny");
       noBtn.innerHTML = '<span>Kecil! 🐭</span>';
       break;
-      
+
     case 4:
       answers[answers.length - 1] = "yes 4(ada banyak)";
       showReaction("😵");
@@ -167,7 +167,7 @@ function answerNo() {
       createNoButtonClones(5);
       noBtn.style.opacity = "0";
       break;
-      
+
     case 5:
       answers[answers.length - 1] = "yes 5 (muter-muter)";
       showReaction("🎡");
@@ -177,62 +177,62 @@ function answerNo() {
       noBtn.classList.add("spinning-mad");
       noBtn.innerHTML = '<span>Muter! 🎠</span>';
       break;
-      
+
     case 6:
       answers[answers.length - 1] = "No (pecah berkeping)";
       showReaction("🧩");
       showNoMessage("Wih, tombolnya pecah! Coba susun lagi!");
-      
+
       // Sembunyikan tombol asli dan buat puzzle
       noBtn.style.display = "none";
       noBtn.style.pointerEvents = "none";
       createNoPuzzle();
       break;
-      
-case 7:
-  answers[answers.length - 1] = "No (invisible mode)";
-  showReaction("👻");
-  showNoMessage("Tombolnya ilang! Tapi masih ada di sekitar sini...");
-  
-  // Pastikan hapus efek sebelumnya
-  removeNoPuzzle();
-  removeNoClones();
-  removeMirrorButtons();
-  
-  // Reset dan setup untuk efek invisible
-  noBtn.style.display = "block";
-  noBtn.style.opacity = "1"; // Pastikan visible dulu
-  noBtn.style.pointerEvents = "auto"; // Pastikan bisa diklik
-  noBtn.style.position = "relative"; // Reset position
-  noBtn.style.transform = ""; // Reset transform
-  
-  // Hapus semua class sebelumnya dan tambah class baru
-  noBtn.className = "no btn-3d invisible-tricky";
-  noBtn.innerHTML = '<span>👻</span>';
-  
-  // Start the invisible effect
-  startInvisibleEffect(noBtn);
-  break;
-      
+
+    case 7:
+      answers[answers.length - 1] = "No (invisible mode)";
+      showReaction("👻");
+      showNoMessage("Tombolnya ilang! Tapi masih ada di sekitar sini...");
+
+      // Pastikan hapus efek sebelumnya
+      removeNoPuzzle();
+      removeNoClones();
+      removeMirrorButtons();
+
+      // Reset dan setup untuk efek invisible
+      noBtn.style.display = "block";
+      noBtn.style.opacity = "1"; // Pastikan visible dulu
+      noBtn.style.pointerEvents = "auto"; // Pastikan bisa diklik
+      noBtn.style.position = "relative"; // Reset position
+      noBtn.style.transform = ""; // Reset transform
+
+      // Hapus semua class sebelumnya dan tambah class baru
+      noBtn.className = "no btn-3d invisible-tricky";
+      noBtn.innerHTML = '<span>👻</span>';
+
+      // Start the invisible effect
+      startInvisibleEffect(noBtn);
+      break;
+
     case 8:
       answers[answers.length - 1] = "yes 8 (tukar posisi)";
       showReaction("🔄");
       showNoMessage("Awas, tombolnya tukar posisi! Jangan sampai salah klik!");
       swapYesNoPositions();
       break;
-      
+
     case 9:
       answers[answers.length - 1] = "yes Kepaksa (mirror effect)";
       showReaction("🪞");
       showNoMessage("Sekarang ada yang asli dan palsu! Cari yang bener!");
       createMirrorNoButtons();
       break;
-      
+
     default:
       // 🔒 LOCK jawaban dan paksa YES
       isAnswerLocked = true;
       disableAllButtons();
-      
+
       const forcedMessages = [
         "OKEEEE! Kamu menang! Tapi jawabannya tetep IYA! 🏆",
         "UDAAAH! Capek ngejar tombol! Auto YES! 🤖",
@@ -240,16 +240,16 @@ case 7:
         "SELESAI! Tombol No nya udah menyerah! YES! 🏳️"
       ];
       const randomMsg = forcedMessages[Math.floor(Math.random() * forcedMessages.length)];
-      
+
       answers[answers.length - 1] = "Yes (akhirnya menyerah juga 😂)";
       showReaction("🎉");
       showNoMessage(randomMsg);
       playSound("pop");
       miniConfetti();
-      
+
       resetNoButton();
       removeAllEffects();
-      
+
       setTimeout(() => {
         hideNoMessage();
         nextQuestion();
@@ -264,7 +264,7 @@ let invisibleInterval;
 
 function startInvisibleEffect(button) {
   let isVisible = true;
-  
+
   invisibleInterval = setInterval(() => {
     if (isVisible) {
       // Mode invisible - hampir tidak terlihat tapi masih bisa diklik
@@ -288,7 +288,7 @@ function stopInvisibleEffect() {
 function createRunAwayEffect() {
   const noBtn = document.getElementById("no-btn");
   noBtn.style.transition = "all 0.8s ease";
-  
+
   setInterval(() => {
     const x = Math.random() * 300 - 150;
     const y = Math.random() * 200 - 100;
@@ -301,7 +301,7 @@ function createJumpyTinyEffect() {
   const noBtn = document.getElementById("no-btn");
   noBtn.style.transform = "scale(0.4)";
   noBtn.style.transition = "all 0.3s ease";
-  
+
   setInterval(() => {
     const x = Math.random() * 200 - 100;
     const y = Math.random() * 150 - 75;
@@ -313,13 +313,13 @@ function createJumpyTinyEffect() {
 function createNoButtonClones(count) {
   const originalBtn = document.getElementById("no-btn");
   const btnGroup = document.getElementById("yesno-group");
-  
+
   // Hapus clone sebelumnya jika ada
   removeNoClones();
-  
+
   // Tentukan clone mana yang asli (random)
   const realCloneIndex = Math.floor(Math.random() * count);
-  
+
   for (let i = 0; i < count; i++) {
     const clone = originalBtn.cloneNode(true);
     clone.id = `no-clone-${i}`;
@@ -331,13 +331,13 @@ function createNoButtonClones(count) {
     clone.style.opacity = "1";
     clone.style.pointerEvents = "auto";
     clone.style.display = "block";
-    
+
     // Hapus semua class yang tidak perlu
     clone.className = "no btn-3d";
-    
+
     // Clone yang asli
     if (i === realCloneIndex) {
-      clone.onclick = function() {
+      clone.onclick = function () {
         // Clone yang asli akan melanjutkan ke case berikutnya
         removeNoClones(); // Hapus semua clone
         answerNo(); // Panggil answerNo lagi untuk lanjut ke case 5
@@ -347,7 +347,7 @@ function createNoButtonClones(count) {
       clone.style.color = "white";
     } else {
       // Clone palsu
-      clone.onclick = function() {
+      clone.onclick = function () {
         showNoMessage("Bukan ini yang bener! Cari lagi! ❌");
         playSound("no");
         this.style.background = "#ffcccc";
@@ -365,7 +365,7 @@ function createNoButtonClones(count) {
       };
       clone.innerHTML = '<span>Palsu! 🤥</span>';
     }
-    
+
     btnGroup.appendChild(clone);
   }
 }
@@ -374,14 +374,14 @@ function createNoButtonClones(count) {
 function createSpinningMadEffect() {
   const noBtn = document.getElementById("no-btn");
   let rotation = 0;
-  
+
   const spinInterval = setInterval(() => {
     rotation += 30;
     const x = Math.sin(rotation * Math.PI / 180) * 100;
     const y = Math.cos(rotation * Math.PI / 180) * 50;
     noBtn.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg) scale(0.7)`;
   }, 100);
-  
+
   // Simpan interval ID untuk nanti di-clear
   noBtn.setAttribute('data-spin-interval', spinInterval);
 }
@@ -390,14 +390,14 @@ function createSpinningMadEffect() {
 function createNoPuzzle() {
   const originalBtn = document.getElementById("no-btn");
   const btnGroup = document.getElementById("yesno-group");
-  
+
   // Hapus puzzle sebelumnya jika ada
   removeNoPuzzle();
-  
+
   const pieces = 4;
   // Tentukan piece mana yang asli (random)
   const realPieceIndex = Math.floor(Math.random() * pieces);
-  
+
   for (let i = 0; i < pieces; i++) {
     const piece = document.createElement('button');
     piece.className = "no btn-3d";
@@ -413,10 +413,10 @@ function createNoPuzzle() {
     piece.style.pointerEvents = "auto";
     piece.style.display = "block";
     piece.style.fontSize = "0.8rem";
-    
+
     // Piece yang asli
     if (i === realPieceIndex) {
-      piece.onclick = function() {
+      piece.onclick = function () {
         // Piece yang asli akan melanjutkan ke case berikutnya
         removeNoPuzzle();
         answerNo(); // Panggil answerNo lagi untuk lanjut ke case 7
@@ -425,7 +425,7 @@ function createNoPuzzle() {
       piece.style.color = "white";
     } else {
       // Piece palsu
-      piece.onclick = function() {
+      piece.onclick = function () {
         showNoMessage("Salah piece! Cari yang lain! 🔍");
         playSound("no");
         this.style.background = "#ffcccc";
@@ -445,7 +445,7 @@ function createNoPuzzle() {
       piece.style.color = "var(--love)";
       piece.style.border = "2px solid #ffe6f2";
     }
-    
+
     btnGroup.appendChild(piece);
   }
 }
@@ -454,7 +454,7 @@ function createInvisibleTrickyEffect() {
   const noBtn = document.getElementById("no-btn");
   noBtn.style.opacity = "0.1";
   noBtn.style.transition = "opacity 0.5s ease";
-  
+
   // Kadang muncul sebentar
   setInterval(() => {
     noBtn.style.opacity = Math.random() > 0.7 ? "0.8" : "0.1";
@@ -466,9 +466,9 @@ function swapYesNoPositions() {
   const yesBtn = document.querySelector('.yes');
   const noBtn = document.getElementById("no-btn");
   const btnGroup = document.getElementById("yesno-group");
-  
+
   btnGroup.style.flexDirection = "row-reverse";
-  
+
   // Kembalikan setelah beberapa saat
   setTimeout(() => {
     btnGroup.style.flexDirection = "";
@@ -479,7 +479,7 @@ function swapYesNoPositions() {
 function createMirrorNoButtons() {
   const originalBtn = document.getElementById("no-btn");
   const btnGroup = document.getElementById("yesno-group");
-  
+
   // Buat 3 mirror
   for (let i = 0; i < 3; i++) {
     const mirror = originalBtn.cloneNode(true);
@@ -490,9 +490,9 @@ function createMirrorNoButtons() {
     mirror.style.transform = `scale(${Math.random() * 0.6 + 0.7})`;
     mirror.style.zIndex = "1000";
     mirror.innerHTML = '<span>Enggak 🥲</span>';
-    
+
     // Semua mirror palsu
-    mirror.onclick = function() {
+    mirror.onclick = function () {
       showNoMessage("Ini palsu! Cari yang asli! 👀");
       playSound("no");
       this.style.background = "#ffcccc";
@@ -500,7 +500,7 @@ function createMirrorNoButtons() {
         this.style.background = "";
       }, 500);
     };
-    
+
     btnGroup.appendChild(mirror);
   }
 }
@@ -509,8 +509,12 @@ function createMirrorNoButtons() {
 // ===== PERBAIKAN FUNGSI RESET =====
 function resetNoButton() {
   const noBtn = document.getElementById("no-btn");
-  
-  // Reset tombol asli
+
+  // Hentikan semua efek
+  stopInvisibleEffect();
+  stopJumpingEffect();
+
+  // Reset semua style
   noBtn.style.cssText = '';
   noBtn.className = "no btn-3d";
   noBtn.innerHTML = '<span>Enggak 🥲</span>';
@@ -521,10 +525,12 @@ function resetNoButton() {
   noBtn.style.left = "";
   noBtn.style.top = "";
   noBtn.style.transform = "";
-  
-  // Hapus semua puzzle dan clone
+  noBtn.style.cursor = "pointer";
+
+  // Hapus semua efek tambahan
   removeNoPuzzle();
   removeNoClones();
+  removeMirrorButtons();
 }
 
 function removeNoPuzzle() {
@@ -562,7 +568,7 @@ function submitTextAnswer() {
   disableAllButtons();
 
   answers.push(text);
-  
+
   showReaction("🤩");
   playSound("pop");
   miniConfetti();
@@ -578,13 +584,13 @@ function disableAllButtons() {
   const textGroup = document.getElementById('text-group');
   const textInput = document.getElementById('text-answer');
   const textButton = document.querySelector('.btn-next');
-  
+
   // Non-aktifkan Yes/No buttons
   if (yesNoGroup) {
     yesNoGroup.style.pointerEvents = 'none';
     yesNoGroup.style.opacity = '0.6';
   }
-  
+
   // Non-aktifkan Text input
   if (textGroup) {
     textGroup.style.pointerEvents = 'none';
@@ -601,13 +607,13 @@ function enableAllButtons() {
   const textGroup = document.getElementById('text-group');
   const textInput = document.getElementById('text-answer');
   const textButton = document.querySelector('.btn-next');
-  
+
   // Aktifkan Yes/No buttons
   if (yesNoGroup) {
     yesNoGroup.style.pointerEvents = 'auto';
     yesNoGroup.style.opacity = '1';
   }
-  
+
   // Aktifkan Text input
   if (textGroup) {
     textGroup.style.pointerEvents = 'auto';
@@ -637,7 +643,7 @@ function nextQuestion() {
       setTimeout(() => {
         showQuestion();
         card.classList.remove("flipping");
-        
+
         void card.offsetWidth;
 
         setTimeout(() => {
@@ -658,16 +664,16 @@ function nextQuestion() {
 function goToFinal() {
   // Sembunyikan quiz
   document.getElementById("quiz").classList.remove("active");
-  
+
   // Reset card rotation
   const card = document.getElementById("loveCard");
   card.classList.remove("flipped", "flipping");
-  
+
   // Tampilkan final setelah delay kecil
   setTimeout(() => {
     const final = document.getElementById("final");
     final.classList.add("active");
-    
+
     // Isi data final
     document.getElementById("finalName").textContent = userName;
     showConfetti();
@@ -728,14 +734,14 @@ function restart() {
   currentQuestion = 0;
   answers = [];
   clickCount = 0;
-  
+
   // Sembunyikan final
   document.getElementById("final").classList.remove("active");
-  
+
   // Reset card rotation
   const card = document.getElementById("loveCard");
   card.classList.remove("flipped", "flipping");
-  
+
   // Tampilkan intro
   setTimeout(() => {
     document.getElementById("intro").classList.add("active");
@@ -761,12 +767,42 @@ function toggleSound() {
   if (btn) btn.textContent = soundEnabled ? "Sound on" : "Sound off";
 }
 
-function submitAnswers() {
-  fetch("https://askherserver1.vercel.app/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sender: userName, answers }),
-  })
-    .then(() => console.log("Terkirim!"))
-    .catch(() => { });
+async function submitAnswers() {
+  try {
+    // Pastikan db tersedia
+    if (!window.db) {
+      console.warn("Firebase belum terinisialisasi, melewatkan penyimpanan data");
+      return;
+    }
+
+    // Calculate score based on answers
+    let score = 0;
+    answers.forEach(answer => {
+      if (typeof answer === 'string' && answer.toLowerCase().includes('yes')) {
+        score += 10;
+      } else if (answer && answer.trim() !== '') {
+        score += 5;
+      }
+    });
+
+    // Save to Firestore menggunakan Firebase v8 syntax
+    await window.db.collection("quizResults").add({
+      name: userName,
+      answers: answers,
+      score: score,
+      totalQuestions: questions.length,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    console.log("✅ Data tersimpan ke Firestore!");
+  } catch (err) {
+    console.error("❌ Error saat menyimpan:", err);
+    // Optional: Tampilkan pesan error yang lebih informatif
+    if (err.code === 'permission-denied') {
+      console.warn("Izin ditolak. Pastikan Firestore rules sudah dikonfigurasi.");
+    }
+  }
 }
+
+
+

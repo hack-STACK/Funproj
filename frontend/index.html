@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Will You Be Mine? Super Cute 3D</title>
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Poppins:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
   <!-- Floating Hearts Background -->
@@ -15,7 +19,7 @@
   <!-- 3D Card Container -->
   <div class="scene">
     <div class="card" id="loveCard">
-      
+
       <!-- Front: Intro -->
       <section id="intro" class="screen active">
         <div class="heart-burst">😛</div>
@@ -90,27 +94,57 @@
     <button onclick="toggleSound()" id="soundBtn" class="btn-3d">Sound on</button>
   </div>
 
-<!-- Footer -->
-<footer>
-  <div class="footer-content">
-    <span class="made-with">
-      Made with 
-      <span class="heart-pulse">❤️</span> 
-      by 
-      <a href="https://www.instagram.com/juwannqt/" target="_blank" class="instagram-link">
-        @juwannqt
-      </a>
-    </span>
-  </div>
-</footer>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <span class="made-with">
+        Made with
+        <span class="heart-pulse">❤️</span>
+        by
+        <a href="https://www.instagram.com/juwannqt/" target="_blank" class="instagram-link">
+          @juwannqt
+        </a>
+      </span>
+    </div>
+  </footer>
 
   <!-- Audio -->
-  <audio id="popSound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3" preload="auto"></audio>
+  <audio id="popSound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3"
+    preload="auto"></audio>
   <audio id="loveSound" src="https://assets.mixkit.co/sfx/preview/mixkit-heart-beat-747.mp3" preload="auto"></audio>
-  <audio id="noSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-918.mp3" preload="auto"></audio>
+  <audio id="noSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-918.mp3"
+    preload="auto"></audio>
 
   <!-- Confetti CDN -->
+  <!-- Hapus script Firebase yang lama dan ganti dengan: -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZ5UsshCljRiL5QeXCkGwhafQ0SeQDM00",
+      authDomain: "askherout-e602e.firebaseapp.com",
+      projectId: "askherout-e602e",
+      storageBucket: "askherout-e602e.firebasestorage.app",
+      messagingSenderId: "1030360510857",
+      appId: "1:1030360510857:web:d1b422f31f853c30097158",
+      measurementId: "G-L7S22PFTGX"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Initialize global variables
+    window.db = firebase.firestore();
+    window.analytics = firebase.analytics();
+
+    console.log("Firebase initialized successfully!");
+  </script>
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>

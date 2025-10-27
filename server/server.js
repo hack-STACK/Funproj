@@ -1,70 +1,63 @@
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const twilio = require('twilio');
-const logger = require('morgan');
-const cors = require('cors');
-const path = require('path');
 
+
+import express from "express";
+import admin from "firebase-admin";
+import cors from "cors"; // supaya bisa diakses dari Postman / web front-end
+
+// === Inisialisasi Firebase Admin SDK ===
+import serviceAccount from "./serviceAccountKey.json" assert { type: "json" };
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+const db = admin.firestore(); // koneksi ke Firestore
 const app = express();
 
-// Middleware setup
-app.use(bodyParser.json());
-app.use(logger('dev'));
 app.use(cors());
+app.use(express.json());
 
-// Twilio configuration
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
+// === ROUTE TESTING SERVER ===
+app.get("/", (req, res) => {
+  res.send("Server aktif ✅");
+});
 
-if (!accountSid || !authToken) {
-  throw new Error('TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN must be set');
-}
+// === ROUTE TAMBAH USER ===
+app.post("/add-user", async (req, res) => {
+  const { name, email } = req.body;
 
-const client = twilio(accountSid, authToken);
+  if (!name || !email) {
+    return res.status(400).json({ error: "Nama dan email wajib diisi!" });
+  }
 
-// Endpoint to handle form submission
-app.post('/submit', (req, res) => {
-  const { name, date, spot, excitement, imageUrl } = req.body;
-
-  const message = `
-    Nama: ${name}
-    Tanggal: ${date}
-    Spot: ${spot}
-    Tingkat Excitement: ${excitement}
-    ${imageUrl ? `Image URL: ${imageUrl}` : ''}
-  `;
-
-  client.messages
-    .create({
-      body: message,
-      from: 'whatsapp:+14155238886',
-      to: 'whatsapp:+6281234047522',
-    })
-    .then((message) => {
-      console.log('Message sent: ', message.sid);
-      res.json({ success: true });
-    })
-    .catch((error) => {
-      console.error('Error sending message:', error);
-      res.status(500).json({ error: 'Failed to send message' });
+  try {
+    await db.collection("users").add({
+      name,
+      email,
+      createdAt: new Date(),
     });
+    res.status(200).json({ message: "User berhasil ditambahkan!" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Gagal menyimpan data ke Firestore" });
+  }
 });
 
-// Basic routes
-app.get('/', (req, res) => {
-  res.status(200).send('Welcome to the homepage!');
+// === ROUTE AMBIL SEMUA USER ===
+app.get("/users", async (req, res) => {
+  try {
+    const snapshot = await db.collection("users").get();
+    const users = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    res.status(200).json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Gagal mengambil data" });
+  }
 });
 
-app.get('/home', (req, res) => {
-  res.status(200).json('Welcome, your app is working well');
-});
-
-// Serve static files (if needed)
-// app.use(express.static(path.join(__dirname, 'frontend', 'public')));
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// === JALANKAN SERVER ===
+const PORT = 3000;
+app.listen(PORT, () => console.log(`🚀 Server jalan di port ${PORT}`));
