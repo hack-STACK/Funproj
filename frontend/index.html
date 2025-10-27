@@ -121,17 +121,40 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
 
+  <!-- Config dan Firebase Initialization -->
   <script type="module">
-    import { firebaseConfig } from '/API/config.js'; // Tambah slash di depan
+    // Coba berbagai path untuk Vercel — gunakan dynamic import agar tidak ada import pada non-top-level
+    (async () => {
+      try {
+        const mod = await import('./API/config.js');
+        initFirebase(mod.firebaseConfig);
+      } catch (e) {
+        try {
+          const mod = await import('/API/config.js');
+          initFirebase(mod.firebaseConfig);
+        } catch (e2) {
+          console.log("Config not found, using fallback");
+          // Fallback: hardcode config
+          const firebaseConfig = {
+            apiKey: "AIzaSyBZ5UsshCljRiL5QeXCkGwhafQ0SeQDM00",
+            authDomain: "askherout-e602e.firebaseapp.com",
+            projectId: "askherout-e602e",
+            storageBucket: "askherout-e602e.firebasestorage.app",
+            messagingSenderId: "1030360510857",
+            appId: "1:1030360510857:web:d1b422f31f853c30097158",
+            measurementId: "G-L7S22PFTGX"
+          };
+          initFirebase(firebaseConfig);
+        }
+      }
+    })();
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-
-    // Set global variables
-    window.db = firebase.firestore();
-    window.firebase = firebase;
-
-    console.log("Firebase initialized successfully!");
+    function initFirebase(config) {
+      firebase.initializeApp(config);
+      window.db = firebase.firestore();
+      window.firebase = firebase;
+      console.log("Firebase initialized successfully!");
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
