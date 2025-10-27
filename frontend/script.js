@@ -738,6 +738,10 @@ function goToFinal() {
 
     // Isi data final
     document.getElementById("finalName").textContent = userName;
+    
+    // 🔥 PLAY AUDIO FINAL - TAMBAHKAN INI
+    playFinalAudio();
+    
     showConfetti();
     playSound("love");
     submitAnswers();
@@ -908,5 +912,46 @@ async function submitAnswers() {
   }
 }
 
+// ===== AUDIO FUNCTIONS FOR FINAL =====
+function playFinalAudio() {
+  try {
+    // Mainkan sound effect final dari file sound.mp4
+    const finalSound = document.getElementById("finalSound");
+    if (finalSound && soundEnabled) {
+      finalSound.currentTime = 0;
+      finalSound.volume = 0.8;
+      finalSound.play()
+        .then(() => {
+          console.log("🎵 Final audio started successfully");
+        })
+        .catch(error => {
+          console.log("Final sound error:", error);
+          // Fallback ke online sound jika file local error
+          playFallbackFinalSound();
+        });
+    } else if (!finalSound) {
+      console.log("Final sound element not found, using fallback");
+      playFallbackFinalSound();
+    }
+    
+  } catch (error) {
+    console.error("Error playing final audio:", error);
+    // Fallback ke online sound
+    playFallbackFinalSound();
+  }
+}
 
+// Fallback function jika sound.mp4 tidak work
+function playFallbackFinalSound() {
+  if (!soundEnabled) return;
+  
+  try {
+    // Buat audio element dynamically untuk fallback
+    const fallbackSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3");
+    fallbackSound.volume = 0.7;
+    fallbackSound.play().catch(e => console.log("Fallback sound also failed:", e));
+  } catch (error) {
+    console.error("Fallback sound error:", error);
+  }
+}
 
