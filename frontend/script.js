@@ -505,6 +505,16 @@ function createMirrorNoButtons() {
   }
 }
 
+function stopJumpingEffect() {
+  // Hentikan efek lompat-lompat dengan clear interval
+  const noBtn = document.getElementById("no-btn");
+  if (noBtn) {
+    noBtn.style.transform = "";
+    noBtn.style.transition = "";
+  }
+}
+
+
 // Fungsi reset
 // ===== PERBAIKAN FUNGSI RESET =====
 function resetNoButton() {
@@ -769,37 +779,79 @@ function toggleSound() {
 
 async function submitAnswers() {
   try {
+    console.log("🟡 Mulai menyimpan data...");
+
     // Pastikan db tersedia
     if (!window.db) {
-      console.warn("Firebase belum terinisialisasi, melewatkan penyimpanan data");
+      console.error("❌ window.db tidak terdefinisi");
       return;
     }
 
-    // Calculate score based on answers
-    let score = 0;
-    answers.forEach(answer => {
-      if (typeof answer === 'string' && answer.toLowerCase().includes('yes')) {
-        score += 10;
-      } else if (answer && answer.trim() !== '') {
-        score += 5;
+    console.log("🟡 window.db tersedia:", !!window.db);
+
+    // Buat data untuk disimpan
+    const questionAnswerPairs = questions.map((question, index) => {
+      return {
+        question: question.text,
+        answer: answers[index] || 'Tidak dijawab',
+        questionNumber: index + 1,
+        questionType: question.type,
+        timestamp: new Date().toISOString()
+      };
+    });
+
+    const quizData = {
+      userName: userName,
+      questionAnswerPairs: questionAnswerPairs,
+      summary: {
+        totalQuestions: questions.length,
+        questionsAnswered: answers.length,
+        completionRate: Math.round((answers.length / questions.length) * 100)
+      },
+      quizCompletedAt: new Date().toISOString(),
+      timestamp: window.firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    console.log("📦 Data yang akan disimpan:", quizData);
+
+    // Coba simpan dengan error handling lebih detail
+    const docRef = await window.db.collection("quizResults").add(quizData);
+
+    console.log("✅ Data BERHASIL tersimpan dengan ID:", docRef.id);
+    console.log("📍 Collection: quizResults");
+
+    // Verifikasi dengan membaca data yang baru disimpan
+    setTimeout(async () => {
+      try {
+        const doc = await docRef.get();
+        if (doc.exists) {
+          console.log("🔍 Verifikasi: Data ditemukan di Firestore:", doc.data());
+        } else {
+          console.log("❌ Verifikasi: Data tidak ditemukan di Firestore");
+        }
+      } catch (verifyError) {
+        console.error("❌ Error verifikasi:", verifyError);
       }
-    });
+    }, 2000);
 
-    // Save to Firestore menggunakan Firebase v8 syntax
-    await window.db.collection("quizResults").add({
-      name: userName,
-      answers: answers,
-      score: score,
-      totalQuestions: questions.length,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    console.log("✅ Data tersimpan ke Firestore!");
   } catch (err) {
-    console.error("❌ Error saat menyimpan:", err);
-    // Optional: Tampilkan pesan error yang lebih informatif
-    if (err.code === 'permission-denied') {
-      console.warn("Izin ditolak. Pastikan Firestore rules sudah dikonfigurasi.");
+    console.error("❌ ERROR DETAIL saat menyimpan:");
+    console.error("🔸 Error message:", err.message);
+    console.error("🔸 Error code:", err.code);
+    console.error("🔸 Error stack:", err.stack);
+
+    // Fallback: simpan ke localStorage
+    try {
+      const fallbackData = {
+        userName: userName,
+        answers: answers,
+        questions: questions.map(q => q.text),
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('quiz_backup_' + Date.now(), JSON.stringify(fallbackData));
+      console.log("📝 Data disimpan ke localStorage sebagai backup");
+    } catch (fallbackError) {
+      console.error("❌ Gagal menyimpan ke localStorage:", fallbackError);
     }
   }
 }
