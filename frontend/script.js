@@ -52,6 +52,8 @@ function startQuestions() {
 
 // === TAMPILKAN PERTANYAAN ===
 function showQuestion() {
+  if (invisibleInterval) clearInterval(invisibleInterval);
+  invisibleInterval = null;
   const q = questions[currentQuestion];
   document.getElementById("question-text").textContent = q.text;
   document.getElementById("question-number").textContent = currentQuestion + 1;
@@ -520,9 +522,9 @@ function stopJumpingEffect() {
 function resetNoButton() {
   const noBtn = document.getElementById("no-btn");
 
-  // Hentikan semua efek
+  // Hentikan semua efek interval
   stopInvisibleEffect();
-  stopJumpingEffect();
+  stopAllEffects(); // Tambahkan fungsi baru untuk stop semua efek
 
   // Reset semua style
   noBtn.style.cssText = '';
@@ -536,11 +538,61 @@ function resetNoButton() {
   noBtn.style.top = "";
   noBtn.style.transform = "";
   noBtn.style.cursor = "pointer";
+  noBtn.style.transition = "";
 
   // Hapus semua efek tambahan
   removeNoPuzzle();
   removeNoClones();
   removeMirrorButtons();
+
+  // Reset flex direction button group
+  const btnGroup = document.getElementById("yesno-group");
+  btnGroup.style.flexDirection = "";
+}
+
+// Tambahkan fungsi ini di bagian EFFECT FUNCTIONS
+function stopAllEffects() {
+  // Hentikan invisible effect
+  stopInvisibleEffect();
+
+  // Hentikan semua interval yang mungkin masih berjalan
+  const noBtn = document.getElementById("no-btn");
+  if (noBtn) {
+    // Clear interval dari spinning effect
+    const spinInterval = noBtn.getAttribute('data-spin-interval');
+    if (spinInterval) {
+      clearInterval(parseInt(spinInterval));
+      noBtn.removeAttribute('data-spin-interval');
+    }
+
+    // Reset semua transform dan transition
+    noBtn.style.transform = "";
+    noBtn.style.transition = "";
+  }
+
+  // Hentikan efek lari (run-away)
+  clearRunAwayEffect();
+
+  // Hentikan efek lompat (jumpy)
+  clearJumpyEffect();
+}
+
+// Fungsi untuk clear run-away effect
+function clearRunAwayEffect() {
+  const noBtn = document.getElementById("no-btn");
+  if (noBtn) {
+    noBtn.style.transform = "";
+    noBtn.style.transition = "";
+  }
+}
+
+// Fungsi untuk clear jumpy effect  
+function clearJumpyEffect() {
+  const noBtn = document.getElementById("no-btn");
+  if (noBtn) {
+    noBtn.style.transform = "";
+    noBtn.style.transition = "";
+  }
 }
 
 function removeNoPuzzle() {
